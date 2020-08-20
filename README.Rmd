@@ -1,0 +1,38 @@
+---
+output: github_document
+bibliography: bib.bib
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# Reproduce the Results of @gerard2020fast
+
+## Introduction
+
+This repository contains the code and instructions needed to reproduce all of
+the results from @gerard2020fast.
+
+## Instructions
+
+To run all simulations, open up the terminal and run
+
+```{bash, eval = FALSE}
+make
+```
+
+
+# Session Information
+
+```{r, echo = FALSE}
+sessionInfo()
+```
+
+## References
