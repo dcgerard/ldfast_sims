@@ -31,7 +31,12 @@ make
 
 # Session Information
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+library(updog)
+library(ldsep)
+library(dplyr)
+library(foreach)
+library(doParallel)
 sessionInfo()
 ```
 

@@ -35,13 +35,32 @@ make
     #> [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
     #> 
     #> attached base packages:
-    #> [1] stats     graphics  grDevices utils     datasets  methods   base     
+    #> [1] parallel  stats     graphics  grDevices utils     datasets  methods  
+    #> [8] base     
+    #> 
+    #> other attached packages:
+    #> [1] doParallel_1.0.15 iterators_1.0.12  foreach_1.5.0     dplyr_1.0.2      
+    #> [5] ldsep_1.0.0       updog_2.0.2      
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] compiler_4.0.2  magrittr_1.5    tools_4.0.2     htmltools_0.5.0
-    #>  [5] yaml_2.2.1      stringi_1.4.6   rmarkdown_2.3   knitr_1.29     
-    #>  [9] stringr_1.4.0   xfun_0.16       digest_0.6.25   rlang_0.4.7    
-    #> [13] evaluate_0.14
+    #>  [1] Rcpp_1.0.5                compiler_4.0.2           
+    #>  [3] pillar_1.4.6              tools_4.0.2              
+    #>  [5] digest_0.6.25             evaluate_0.14            
+    #>  [7] lifecycle_0.2.0           tibble_3.0.3             
+    #>  [9] gtable_0.3.0              pkgconfig_2.0.3          
+    #> [11] rlang_0.4.7               yaml_2.2.1               
+    #> [13] xfun_0.16                 RcppArmadillo_0.9.900.2.0
+    #> [15] stringr_1.4.0             knitr_1.29               
+    #> [17] generics_0.0.2            vctrs_0.3.2              
+    #> [19] grid_4.0.2                tidyselect_1.1.0         
+    #> [21] glue_1.4.1                R6_2.4.1                 
+    #> [23] rmarkdown_2.3             purrr_0.3.4              
+    #> [25] ggplot2_3.3.2             magrittr_1.5             
+    #> [27] ggthemes_4.2.0            scales_1.1.1             
+    #> [29] codetools_0.2-16          htmltools_0.5.0          
+    #> [31] ellipsis_0.3.1            assertthat_0.2.1         
+    #> [33] colorspace_1.4-1          stringi_1.4.6            
+    #> [35] munsell_0.5.0             crayon_1.3.4
 
 ## References
 
