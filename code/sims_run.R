@@ -90,39 +90,41 @@ stopifnot(paramdf$pAB > 0, paramdf$pAB < 1,
 
 # populate columns to be filled ----------------------------------------------
 paramdf %>%
-  mutate(mom_D_est            = NA_real_,
-         mom_D_se             = NA_real_,
-         mom_Dprime_est       = NA_real_,
-         mom_Dprime_se        = NA_real_,
-         mom_Dprimeg_est      = NA_real_,
-         mom_Dprimeg_se       = NA_real_,
-         mom_r2_est           = NA_real_,
-         mom_r2_se            = NA_real_,
-         mom_z_est            = NA_real_,
-         mom_z_se             = NA_real_,
-         mom_r_est            = NA_real_,
-         mom_r_se             = NA_real_,
-         mom_time             = NA_real_,
-         fast_r2_est           = NA_real_,
-         fast_r2_se            = NA_real_,
-         fast_z_est            = NA_real_,
-         fast_z_se             = NA_real_,
-         fast_r_est            = NA_real_,
-         fast_r_se             = NA_real_,
-         fast_time             = NA_real_,
-         comnorm_D_est        = NA_real_,
-         comnorm_D_se         = NA_real_,
-         comnorm_Dprime_est   = NA_real_,
-         comnorm_Dprime_se    = NA_real_,
-         comnorm_Dprimeg_est  = NA_real_,
-         comnorm_Dprimeg_se   = NA_real_,
-         comnorm_r2_est       = NA_real_,
-         comnorm_r2_se        = NA_real_,
-         comnorm_z_est        = NA_real_,
-         comnorm_z_se         = NA_real_,
-         comnorm_r_est        = NA_real_,
-         comnorm_r_se         = NA_real_,
-         comnorm_time         = NA_real_) ->
+  mutate(naive_D_est       = NA_real_,
+         naive_D_se        = NA_real_,
+         naive_Dprime_est  = NA_real_,
+         naive_Dprime_se   = NA_real_,
+         naive_Dprimeg_est = NA_real_,
+         naive_Dprimeg_se  = NA_real_,
+         naive_r2_est      = NA_real_,
+         naive_r2_se       = NA_real_,
+         naive_z_est       = NA_real_,
+         naive_z_se        = NA_real_,
+         naive_r_est       = NA_real_,
+         naive_r_se        = NA_real_,
+         naive_time        = NA_real_,
+         fast_r2_est       = NA_real_,
+         fast_r2_se        = NA_real_,
+         fast_z_est        = NA_real_,
+         fast_z_se         = NA_real_,
+         fast_r_est        = NA_real_,
+         fast_r_se         = NA_real_,
+         fast_D_est        = NA_real_,
+         fast_D_se         = NA_real_,
+         fast_Dprime_est   = NA_real_,
+         fast_Dprime_se    = NA_real_,
+         fast_time         = NA_real_,
+         mle_D_est         = NA_real_,
+         mle_D_se          = NA_real_,
+         mle_Dprime_est    = NA_real_,
+         mle_Dprime_se     = NA_real_,
+         mle_r2_est        = NA_real_,
+         mle_r2_se         = NA_real_,
+         mle_z_est         = NA_real_,
+         mle_z_se          = NA_real_,
+         mle_r_est         = NA_real_,
+         mle_r_se          = NA_real_,
+         mle_time          = NA_real_) ->
   paramdf
 
 ## shuffle order to equalize computation time across nodes
@@ -144,6 +146,7 @@ i <- 1
 simdf <- foreach::foreach(i = seq_len(nrow(paramdf)),
                           .combine = rbind,
                           .export = c("ldest",
+                                      "ldfast",
                                       "rflexdog",
                                       "flexdog")) %dopar% {
                             set.seed(paramdf$seed[[i]])
@@ -198,25 +201,25 @@ simdf <- foreach::foreach(i = seq_len(nrow(paramdf)),
 
                             ## Estimate ld ------------------------------------
                             tryCatch({
-                              paramdf$mom_time[[i]] <- system.time(
-                                ldmom <- ldsep::ldest(ga = foutA$postmean,
-                                                      gb = foutB$postmean,
-                                                      K = paramdf$ploidy[[i]],
-                                                      type = "comp")
+                              paramdf$naive_time[[i]] <- system.time(
+                                ldnaive <- ldsep::ldest(ga = foutA$postmean,
+                                                        gb = foutB$postmean,
+                                                        K = paramdf$ploidy[[i]],
+                                                        type = "comp")
                               )[[3]]
 
-                              paramdf$mom_D_est[[i]]        <- ldmom[["D"]]
-                              paramdf$mom_D_se[[i]]         <- ldmom[["D_se"]]
-                              paramdf$mom_Dprime_est[[i]]   <- ldmom[["Dprime"]]
-                              paramdf$mom_Dprime_se[[i]]    <- ldmom[["Dprime_se"]]
-                              paramdf$mom_Dprimeg_est[[i]]  <- ldmom[["Dprimeg"]]
-                              paramdf$mom_Dprimeg_se[[i]]   <- ldmom[["Dprimeg_se"]]
-                              paramdf$mom_r2_est[[i]]       <- ldmom[["r2"]]
-                              paramdf$mom_r2_se[[i]]        <- ldmom[["r2_se"]]
-                              paramdf$mom_z_est[[i]]        <- ldmom[["z"]]
-                              paramdf$mom_z_se[[i]]         <- ldmom[["z_se"]]
-                              paramdf$mom_r_est[[i]]        <- ldmom[["r"]]
-                              paramdf$mom_r_se[[i]]         <- ldmom[["r_se"]]
+                              paramdf$naive_D_est[[i]]        <- ldnaive[["D"]]
+                              paramdf$naive_D_se[[i]]         <- ldnaive[["D_se"]]
+                              paramdf$naive_Dprime_est[[i]]   <- ldnaive[["Dprime"]]
+                              paramdf$naive_Dprime_se[[i]]    <- ldnaive[["Dprime_se"]]
+                              paramdf$naive_Dprimeg_est[[i]]  <- ldnaive[["Dprimeg"]]
+                              paramdf$naive_Dprimeg_se[[i]]   <- ldnaive[["Dprimeg_se"]]
+                              paramdf$naive_r2_est[[i]]       <- ldnaive[["r2"]]
+                              paramdf$naive_r2_se[[i]]        <- ldnaive[["r2_se"]]
+                              paramdf$naive_z_est[[i]]        <- ldnaive[["z"]]
+                              paramdf$naive_z_se[[i]]         <- ldnaive[["z_se"]]
+                              paramdf$naive_r_est[[i]]        <- ldnaive[["r"]]
+                              paramdf$naive_r_se[[i]]         <- ldnaive[["r_se"]]
                             }, error = function(e) NULL)
 
                             tryCatch({
@@ -228,33 +231,45 @@ simdf <- foreach::foreach(i = seq_len(nrow(paramdf)),
                                 system.time(
                                   ldf <- ldfast(gp = gp, type = "r")
                                 )[[3]]
+                              paramdf$fast_r_est[[i]]  <- ldf$ldmat[[1, 2]]
+                              paramdf$fast_r_se[[i]] <- ldf$semat[[1, 2]]
 
-                              paramdf$fast_r_est[[i]]  <- ldf$cor[[1, 2]]
-                              paramdf$fast_r2_est[[i]] <- ldf$cor[[1, 2]]^2
-                              paramdf$fast_z_est[[i]]  <- atanh(ldf$cor[[1, 2]])
+                              ldf <- ldfast(gp = gp, type = "r2")
+                              paramdf$fast_r2_est[[i]]  <- ldf$ldmat[[1, 2]]
+                              paramdf$fast_r2_se[[i]] <- ldf$semat[[1, 2]]
+
+                              ldf <- ldfast(gp = gp, type = "z")
+                              paramdf$fast_z_est[[i]]  <- ldf$ldmat[[1, 2]]
+                              paramdf$fast_z_se[[i]] <- ldf$semat[[1, 2]]
+
+                              ldf <- ldfast(gp = gp, type = "D")
+                              paramdf$fast_D_est[[i]]  <- ldf$ldmat[[1, 2]]
+                              paramdf$fast_D_se[[i]] <- ldf$semat[[1, 2]]
+
+                              ldf <- ldfast(gp = gp, type = "Dprime")
+                              paramdf$fast_Dprime_est[[i]]  <- ldf$ldmat[[1, 2]]
+                              paramdf$fast_Dprime_se[[i]] <- ldf$semat[[1, 2]]
                             }, error = function(e) NULL)
 
                             tryCatch({
-                              paramdf$comnorm_time[[i]] <- system.time(
-                                ldcomnorm <- ldsep::ldest(ga = foutA$genologlike,
+                              paramdf$mle_time[[i]] <- system.time(
+                                ldmle <- ldsep::ldest(ga = foutA$genologlike,
                                                       gb = foutB$genologlike,
                                                       K = paramdf$ploidy[[i]],
-                                                      type = "comp",
-                                                      model = "norm")
+                                                      type = "gam",
+                                                      pen = 1.0001)
                               )[[3]]
 
-                              paramdf$comnorm_D_est[[i]]        <- ldcomnorm[["D"]]
-                              paramdf$comnorm_D_se[[i]]         <- ldcomnorm[["D_se"]]
-                              paramdf$comnorm_Dprime_est[[i]]   <- ldcomnorm[["Dprime"]]
-                              paramdf$comnorm_Dprime_se[[i]]    <- ldcomnorm[["Dprime_se"]]
-                              paramdf$comnorm_Dprimeg_est[[i]]  <- ldcomnorm[["Dprimeg"]]
-                              paramdf$comnorm_Dprimeg_se[[i]]   <- ldcomnorm[["Dprimeg_se"]]
-                              paramdf$comnorm_r2_est[[i]]       <- ldcomnorm[["r2"]]
-                              paramdf$comnorm_r2_se[[i]]        <- ldcomnorm[["r2_se"]]
-                              paramdf$comnorm_z_est[[i]]        <- ldcomnorm[["z"]]
-                              paramdf$comnorm_z_se[[i]]         <- ldcomnorm[["z_se"]]
-                              paramdf$comnorm_r_est[[i]]        <- ldcomnorm[["r"]]
-                              paramdf$comnorm_r_se[[i]]         <- ldcomnorm[["r_se"]]
+                              paramdf$mle_D_est[[i]]        <- ldmle[["D"]]
+                              paramdf$mle_D_se[[i]]         <- ldmle[["D_se"]]
+                              paramdf$mle_Dprime_est[[i]]   <- ldmle[["Dprime"]]
+                              paramdf$mle_Dprime_se[[i]]    <- ldmle[["Dprime_se"]]
+                              paramdf$mle_r2_est[[i]]       <- ldmle[["r2"]]
+                              paramdf$mle_r2_se[[i]]        <- ldmle[["r2_se"]]
+                              paramdf$mle_z_est[[i]]        <- ldmle[["z"]]
+                              paramdf$mle_z_se[[i]]         <- ldmle[["z_se"]]
+                              paramdf$mle_r_est[[i]]        <- ldmle[["r"]]
+                              paramdf$mle_r_se[[i]]         <- ldmle[["r_se"]]
                             }, error = function(e) NULL)
 
                             paramdf[i, , drop = FALSE]

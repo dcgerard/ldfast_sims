@@ -13,14 +13,24 @@ rexec = R CMD BATCH --no-save --no-restore
 
 # AVOID EDITING ANYTHING BELOW THIS LINE
 # --------------------------------------
+simplots = ./output/sims/Dbox.pdf \
+           ./output/sims/Dprimebox.pdf \
+           ./output/sims/r2box.pdf \
+           ./output/sims/seplots.pdf
+
 
 all : sims
 
 # Pairwise LD estimation simulations ---------------
 ./output/sims/simout.csv : ./code/sims_run.R
-	mkdir -p ./output/mle
+	mkdir -p ./output/sims
 	mkdir -p ./output/rout
 	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
 
+$(simplots) : ./code/sims_plot.R ./output/sims/simout.csv
+	mkdir -p ./output/sims
+	mkdir -p ./output/rout
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
 .PHONY : sims
-sims : ./output/sims/simout.csv
+sims : $(simplots)

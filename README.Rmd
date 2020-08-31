@@ -28,6 +28,8 @@ To run all simulations, open up the terminal and run
 make
 ```
 
+Mathematica code for calculating the gradients necessary for standard error calculations can be found at [here](./code/gradients.nb) and [here](./code/gradients.md)
+
 
 # Session Information
 

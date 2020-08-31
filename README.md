@@ -16,6 +16,10 @@ To run all simulations, open up the terminal and run
 make
 ```
 
+Mathematica code for calculating the gradients necessary for standard
+error calculations can be found at [here](./code/gradients.nb) and
+[here](./code/gradients.md)
+
 # Session Information
 
     #> R version 4.0.2 (2020-06-22)
@@ -51,9 +55,9 @@ make
     #> [11] rlang_0.4.7               yaml_2.2.1               
     #> [13] xfun_0.16                 RcppArmadillo_0.9.900.2.0
     #> [15] stringr_1.4.0             knitr_1.29               
-    #> [17] generics_0.0.2            vctrs_0.3.2              
+    #> [17] generics_0.0.2            vctrs_0.3.4              
     #> [19] grid_4.0.2                tidyselect_1.1.0         
-    #> [21] glue_1.4.1                R6_2.4.1                 
+    #> [21] glue_1.4.2                R6_2.4.1                 
     #> [23] rmarkdown_2.3             purrr_0.3.4              
     #> [25] ggplot2_3.3.2             magrittr_1.5             
     #> [27] ggthemes_4.2.0            scales_1.1.1             
@@ -68,7 +72,7 @@ make
 
 <div id="ref-gerard2020fast">
 
-Gerard, David. 2020. “Fast Bias-Corrected Linkage Disequilibrium
+Gerard, David. 2020. “Scalable Bias-Corrected Linkage Disequilibrium
 Estimation Under Genotype Uncertainty.” *Unpublished Manuscript*.
 
 </div>
