@@ -43,7 +43,7 @@ depth10df %>%
 
 ggsave(filename = "./output/sims/r2box.pdf",
        plot = pl,
-       height = 8,
+       height = 7,
        width = 6.5,
        family = "Times")
 
@@ -83,7 +83,7 @@ depth10df %>%
 
 ggsave(filename = "./output/sims/Dbox.pdf",
        plot = pl,
-       height = 8,
+       height = 7,
        width = 6.5,
        family = "Times")
 
@@ -124,7 +124,7 @@ depth10df %>%
 
 ggsave(filename = "./output/sims/Dprimebox.pdf",
        plot = pl,
-       height = 8,
+       height = 7,
        width = 6.5,
        family = "Times")
 
