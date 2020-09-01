@@ -13,11 +13,25 @@ rexec = R CMD BATCH --no-save --no-restore
 
 # AVOID EDITING ANYTHING BELOW THIS LINE
 # --------------------------------------
-simplots = ./output/sims/Dbox.pdf \
-           ./output/sims/Dprimebox.pdf \
-           ./output/sims/r2box.pdf \
+simplots = ./output/sims/Dbox_size10_pa50_pb50.pdf \
+           ./output/sims/Dbox_size10_pa50_pb75.pdf \
+           ./output/sims/Dbox_size10_pa90_pb90.pdf \
+           ./output/sims/Dbox_size100_pa50_pb50.pdf \
+           ./output/sims/Dbox_size100_pa50_pb75.pdf \
+           ./output/sims/Dbox_size100_pa90_pb90.pdf \
+           ./output/sims/Dprimebox_size10_pa50_pb50.pdf \
+           ./output/sims/Dprimebox_size10_pa50_pb75.pdf \
+           ./output/sims/Dprimebox_size10_pa90_pb90.pdf \
+           ./output/sims/Dprimebox_size100_pa50_pb50.pdf \
+           ./output/sims/Dprimebox_size100_pa50_pb75.pdf \
+           ./output/sims/Dprimebox_size100_pa90_pb90.pdf \
+           ./output/sims/r2box_size10_pa50_pb50.pdf \
+           ./output/sims/r2box_size10_pa50_pb75.pdf \
+           ./output/sims/r2box_size10_pa90_pb90.pdf \
+           ./output/sims/r2box_size100_pa50_pb50.pdf \
+           ./output/sims/r2box_size100_pa50_pb75.pdf \
+           ./output/sims/r2box_size100_pa90_pb90.pdf \
            ./output/sims/seplots.pdf
-
 
 all : sims
 

@@ -7,127 +7,155 @@ library(ggthemes)
 library(latex2exp)
 simdf <- read_csv("./output/sims/simout.csv")
 
-
-## r2 -------------------------------------------------------------------------
 simdf %>%
-  select(nind,
-         size,
-         ploidy,
-         r2,
-         pA,
-         pB,
-         Naive = naive_r2_est,
-         MoM = fast_r2_est,
-         MLE = mle_r2_est) %>%
-  gather(-nind, -size, -ploidy, -pA, -pB, -r2, key = "method", value = "estimate") %>%
-  mutate(nind = as.factor(nind)) %>%
-  filter(size == 10, pA == 0.5, pB == 0.5) ->
-  depth10df
-
-depth10df %>%
-  select(ploidy, r2) %>%
+  select(size, pA, pB) %>%
   distinct() ->
-  r2df
+  ddf
 
-depth10df %>%
-  ggplot(aes(x = nind, y = estimate, color = method)) +
-  facet_grid(ploidy ~ r2) +
-  geom_boxplot(outlier.size = 0.5) +
-  scale_color_colorblind() +
-  theme_bw() +
-  theme(strip.background = element_rect(fill = "white")) +
-  geom_hline(data = r2df, mapping = aes(yintercept = r2), color = 2, lty = 2) +
-  xlab("Sample Size") +
-  ylab(TeX("$\\hat{r}^2$")) ->
-  pl
+for (index in seq_len(nrow(ddf))) {
+  size_now <- ddf$size[[index]]
+  pA_now <- ddf$pA[[index]]
+  pB_now <- ddf$pB[[index]]
 
-ggsave(filename = "./output/sims/r2box.pdf",
-       plot = pl,
-       height = 7,
-       width = 6.5,
-       family = "Times")
+  ## r2 -------------------------------------------------------------------------
 
-## D --------------------------------------------------------------------------
+  simdf %>%
+    select(nind,
+           size,
+           ploidy,
+           r2,
+           pA,
+           pB,
+           Naive = naive_r2_est,
+           MoM = fast_r2_est,
+           MLE = mle_r2_est) %>%
+    gather(-nind, -size, -ploidy, -pA, -pB, -r2, key = "method", value = "estimate") %>%
+    mutate(nind = as.factor(nind)) %>%
+    filter(size == size_now, pA == pA_now, pB == pB_now) ->
+    depth10df
 
-simdf %>%
-  select(nind,
-         size,
-         ploidy,
-         D,
-         pA,
-         pB,
-         Naive = naive_D_est,
-         MoM = fast_D_est,
-         MLE = mle_D_est) %>%
-  gather(-nind, -size, -ploidy, -pA, -pB, -D, key = "method", value = "estimate") %>%
-  mutate(nind = as.factor(nind)) %>%
-  filter(size == 10, pA == 0.9, pB == 0.9) ->
-  depth10df
+  depth10df %>%
+    select(ploidy, r2) %>%
+    distinct() ->
+    r2df
 
-depth10df %>%
-  select(ploidy, D) %>%
-  distinct() ->
-  Ddf
+  depth10df %>%
+    ggplot(aes(x = nind, y = estimate, color = method)) +
+    facet_grid(ploidy ~ r2) +
+    geom_boxplot(outlier.size = 0.5) +
+    scale_color_colorblind() +
+    theme_bw() +
+    theme(strip.background = element_rect(fill = "white")) +
+    geom_hline(data = r2df, mapping = aes(yintercept = r2), color = 2, lty = 2) +
+    xlab("Sample Size") +
+    ylab(TeX("$\\hat{r}^2$")) ->
+    pl
 
-depth10df %>%
-  ggplot(aes(x = nind, y = estimate, color = method)) +
-  facet_grid(ploidy ~ D) +
-  geom_boxplot(outlier.size = 0.5) +
-  scale_color_colorblind() +
-  theme_bw() +
-  theme(strip.background = element_rect(fill = "white")) +
-  geom_hline(data = Ddf, mapping = aes(yintercept = D), color = 2, lty = 2) +
-  xlab("Sample Size") +
-  ylab(TeX("$\\hat{r}^2$")) ->
-  pl
+  ggsave(filename = paste0("./output/sims/r2box_size",
+                           size_now,
+                           "_pa",
+                           round(pA_now * 100),
+                           "_pb",
+                           round(pB_now * 100),
+                           ".pdf"),
+         plot = pl,
+         height = 6.5,
+         width = 6.5,
+         family = "Times")
 
-ggsave(filename = "./output/sims/Dbox.pdf",
-       plot = pl,
-       height = 7,
-       width = 6.5,
-       family = "Times")
+  ## D --------------------------------------------------------------------------
+
+  simdf %>%
+    select(nind,
+           size,
+           ploidy,
+           D,
+           pA,
+           pB,
+           Naive = naive_D_est,
+           MoM = fast_D_est,
+           MLE = mle_D_est) %>%
+    gather(-nind, -size, -ploidy, -pA, -pB, -D, key = "method", value = "estimate") %>%
+    mutate(nind = as.factor(nind)) %>%
+    filter(size == size_now, pA == pA_now, pB == pB_now) ->
+    depth10df
+
+  depth10df %>%
+    select(ploidy, D) %>%
+    distinct() ->
+    Ddf
+
+  depth10df %>%
+    ggplot(aes(x = nind, y = estimate, color = method)) +
+    facet_grid(ploidy ~ D) +
+    geom_boxplot(outlier.size = 0.5) +
+    scale_color_colorblind() +
+    theme_bw() +
+    theme(strip.background = element_rect(fill = "white")) +
+    geom_hline(data = Ddf, mapping = aes(yintercept = D), color = 2, lty = 2) +
+    xlab("Sample Size") +
+    ylab(TeX("$\\hat{r}^2$")) ->
+    pl
+
+  ggsave(filename = paste0("./output/sims/Dbox_size",
+                           size_now,
+                           "_pa",
+                           round(pA_now * 100),
+                           "_pb",
+                           round(pB_now * 100),
+                           ".pdf"),
+         plot = pl,
+         height = 6.5,
+         width = 6.5,
+         family = "Times")
 
 
-## Dprime --------------------------------------------------------------------
+  ## Dprime --------------------------------------------------------------------
 
-simdf %>%
-  select(nind,
-         size,
-         ploidy,
-         Dprime,
-         pA,
-         pB,
-         Naive = naive_Dprime_est,
-         MoM = fast_Dprime_est,
-         MLE = mle_Dprime_est) %>%
-  gather(-nind, -size, -ploidy, -pA, -pB, -Dprime, key = "method", value = "estimate") %>%
-  mutate(nind = as.factor(nind)) %>%
-  filter(size == 10, pA == 0.9, pB == 0.9) ->
-  depth10df
+  simdf %>%
+    select(nind,
+           size,
+           ploidy,
+           Dprime,
+           pA,
+           pB,
+           Naive = naive_Dprime_est,
+           MoM = fast_Dprime_est,
+           MLE = mle_Dprime_est) %>%
+    gather(-nind, -size, -ploidy, -pA, -pB, -Dprime, key = "method", value = "estimate") %>%
+    mutate(nind = as.factor(nind)) %>%
+    filter(size == size_now, pA == pA_now, pB == pB_now) ->
+    depth10df
 
-depth10df %>%
-  select(ploidy, Dprime) %>%
-  distinct() ->
-  Dprimedf
+  depth10df %>%
+    select(ploidy, Dprime) %>%
+    distinct() ->
+    Dprimedf
 
-depth10df %>%
-  ggplot(aes(x = nind, y = estimate, color = method)) +
-  facet_grid(ploidy ~ Dprime) +
-  geom_boxplot(outlier.size = 0.5) +
-  scale_color_colorblind() +
-  theme_bw() +
-  theme(strip.background = element_rect(fill = "white")) +
-  geom_hline(data = Dprimedf, mapping = aes(yintercept = Dprime), color = 2, lty = 2) +
-  xlab("Sample Size") +
-  ylab(TeX("$\\hat{r}^2$")) ->
-  pl
+  depth10df %>%
+    ggplot(aes(x = nind, y = estimate, color = method)) +
+    facet_grid(ploidy ~ Dprime) +
+    geom_boxplot(outlier.size = 0.5) +
+    scale_color_colorblind() +
+    theme_bw() +
+    theme(strip.background = element_rect(fill = "white")) +
+    geom_hline(data = Dprimedf, mapping = aes(yintercept = Dprime), color = 2, lty = 2) +
+    xlab("Sample Size") +
+    ylab(TeX("$\\hat{r}^2$")) ->
+    pl
 
-ggsave(filename = "./output/sims/Dprimebox.pdf",
-       plot = pl,
-       height = 7,
-       width = 6.5,
-       family = "Times")
-
+  ggsave(filename = paste0("./output/sims/Dprimebox_size",
+                           size_now,
+                           "_pa",
+                           round(pA_now * 100),
+                           "_pb",
+                           round(pB_now * 100),
+                           ".pdf"),
+         plot = pl,
+         height = 6.5,
+         width = 6.5,
+         family = "Times")
+}
 
 ## SE -----------------------------------------------------------------------
 
@@ -170,4 +198,3 @@ ggsave(filename = "./output/sims/seplots.pdf",
        height = 4,
        width = 6.5,
        family = "Times")
-
