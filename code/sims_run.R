@@ -229,24 +229,39 @@ simdf <- foreach::foreach(i = seq_len(nrow(paramdf)),
 
                               paramdf$fast_time[[i]] <-
                                 system.time(
-                                  ldf <- ldfast(gp = gp, type = "r")
+                                  ldf <- ldfast(gp = gp, type = "r",
+                                                shrinkrr = FALSE,
+                                                se = TRUE,
+                                                thresh = FALSE)
                                 )[[3]]
                               paramdf$fast_r_est[[i]]  <- ldf$ldmat[[1, 2]]
                               paramdf$fast_r_se[[i]] <- ldf$semat[[1, 2]]
 
-                              ldf <- ldfast(gp = gp, type = "r2")
+                              ldf <- ldfast(gp = gp, type = "r2",
+                                            shrinkrr = FALSE,
+                                            se = TRUE,
+                                            thresh = FALSE)
                               paramdf$fast_r2_est[[i]]  <- ldf$ldmat[[1, 2]]
                               paramdf$fast_r2_se[[i]] <- ldf$semat[[1, 2]]
 
-                              ldf <- ldfast(gp = gp, type = "z")
+                              ldf <- ldfast(gp = gp, type = "z",
+                                            shrinkrr = FALSE,
+                                            se = TRUE,
+                                            thresh = FALSE)
                               paramdf$fast_z_est[[i]]  <- ldf$ldmat[[1, 2]]
                               paramdf$fast_z_se[[i]] <- ldf$semat[[1, 2]]
 
-                              ldf <- ldfast(gp = gp, type = "D")
+                              ldf <- ldfast(gp = gp, type = "D",
+                                            shrinkrr = FALSE,
+                                            se = TRUE,
+                                            thresh = FALSE)
                               paramdf$fast_D_est[[i]]  <- ldf$ldmat[[1, 2]]
                               paramdf$fast_D_se[[i]] <- ldf$semat[[1, 2]]
 
-                              ldf <- ldfast(gp = gp, type = "Dprime")
+                              ldf <- ldfast(gp = gp, type = "Dprime",
+                                            shrinkrr = FALSE,
+                                            se = TRUE,
+                                            thresh = FALSE)
                               paramdf$fast_Dprime_est[[i]]  <- ldf$ldmat[[1, 2]]
                               paramdf$fast_Dprime_se[[i]] <- ldf$semat[[1, 2]]
                             }, error = function(e) NULL)
