@@ -22,24 +22,47 @@ the results from @gerard2020fast.
 
 ## Instructions
 
+You will need an up-to-date version of R, GNU make, and 7zip. To install the required R packages, run the following in R:
+```{r, eval = FALSE}
+install.packages(c("updog", 
+                   "ldsep", 
+                   "tidyverse", 
+                   "vcfR",
+                   "foreach",
+                   "doParallel", 
+                   "ggthemes", 
+                   "latex2exp"))
+```
+
 To run all simulations, open up the terminal and run
 
 ```{bash, eval = FALSE}
 make
 ```
 
-Mathematica code for calculating the gradients necessary for standard error calculations can be found at [here](./code/gradients.nb) and [here](./code/gradients.md)
+# Additional Results
 
+Mathematica code for calculating the gradients necessary for standard error calculations can be found at [here](./code/gradients.nb) and [here](./code/gradients.md).
+
+A description of the simulation figures in "./output/sims" can be found [here](./output/sims/README.md).
 
 # Session Information
 
-```{r, echo = FALSE, message=FALSE, warning=FALSE}
-library(updog)
-library(ldsep)
-library(dplyr)
-library(foreach)
-library(doParallel)
+```{r, echo = FALSE, message=FALSE, warning=FALSE, results='hide'}
+lapply(c("updog", 
+         "ldsep", 
+         "tidyverse", 
+         "vcfR",
+         "foreach",
+         "doParallel", 
+         "ggthemes", 
+         "latex2exp"), 
+       FUN = library,
+       character.only = TRUE)
+```
+```{r, echo = FALSE}
 sessionInfo()
 ```
+
 
 ## References
