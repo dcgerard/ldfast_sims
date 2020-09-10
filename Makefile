@@ -125,5 +125,10 @@ $(uitclean) : ./code/uit_extract.R $(uitdat)
 	mkdir -p ./output/rout
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
 
+./output/uit/figs/rr_hist.pdf ./output/uit/time_uit.csv : ./code/uit_corcalc.R ./output/uit/uit_updog_fit.RDS
+	mkdir -p ./output/uit
+	mkdir -p ./output/rout
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
 .PHONY : uit
-uit : ./output/uit/uit_updog_fit.RDS ./output/uit/mono_plot.pdf
+uit : ./output/uit/figs/rr_hist.pdf ./output/uit/time_uit.csv ./output/uit/mono_plot.pdf
