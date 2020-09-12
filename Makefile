@@ -95,8 +95,15 @@ $(uitclean) : ./code/uit_extract.R $(uitdat)
 
 ./output/uit/figs/rr_hist.pdf ./output/uit/time_uit.csv : ./code/uit_corcalc.R ./output/uit/uit_updog_fit.RDS
 	mkdir -p ./output/uit
+	mkdir -p ./output/uit/figs
+	mkdir -p ./output/rout
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+./output/uit/figs/mle_mom_nav.pdf : ./code/uit_largerr.R ./output/uit/uit_updog_fit.RDS
+	mkdir -p ./output/uit
+	mkdir -p ./output/uit/figs
 	mkdir -p ./output/rout
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
 
 .PHONY : uit
-uit : ./output/uit/figs/rr_hist.pdf ./output/uit/time_uit.csv ./output/uit/mono_plot.pdf
+uit : ./output/uit/figs/rr_hist.pdf ./output/uit/time_uit.csv ./output/uit/mono_plot.pdf ./output/uit/figs/mle_mom_nav.pdf 
