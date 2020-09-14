@@ -96,5 +96,4 @@ lapply(c("updog",
 sessionInfo()
 ```
 
-
 ## References

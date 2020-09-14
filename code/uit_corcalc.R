@@ -32,7 +32,7 @@ timedf <- as_tibble(rbind(time_mom, time_naive))
 timedf$method <- c("MoM", "Naive")
 write_csv(x = timedf, path = "./output/uit/time_uit.csv")
 
-ggplot(data.frame(rr = sqrt(cor_mom$rr)), aes(x = rr)) +
+ggplot(data.frame(rr = cor_mom$rr), aes(x = rr)) +
   geom_histogram(fill = "white", color = "black", bins = 30) +
   theme_bw() +
   xlab("Reliability Ratio Estimate") ->
@@ -42,4 +42,4 @@ ggsave(filename = "./output/uit/figs/rr_hist.pdf",
        plot = pl,
        family = "Times",
        height = 2.5,
-       width = 2.5)
+       width = 4)
