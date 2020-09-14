@@ -22,23 +22,51 @@ the results from @gerard2020fast.
 
 ## Instructions
 
-You will need an up-to-date version of R, GNU make, and 7zip. To install the required R packages, run the following in R:
-```{r, eval = FALSE}
-install.packages(c("updog", 
-                   "ldsep", 
-                   "tidyverse", 
-                   "vcfR",
-                   "foreach",
-                   "doParallel", 
-                   "ggthemes", 
-                   "latex2exp"))
-```
+- You will need an up-to-date version of R, GNU make, and 7zip. To install the required R packages, run the following in R:
 
-To run all simulations, open up the terminal and run
+    ```{r, eval = FALSE}
+    install.packages(c("updog", 
+                       "ldsep", 
+                       "tidyverse", 
+                       "vcfR",
+                       "foreach",
+                       "doParallel", 
+                       "ggthemes", 
+                       "GGally",
+                       "gridExtra",
+                       "latex2exp",
+                       "matrixStats",
+                       "ashr"))
+    ```
 
-```{bash, eval = FALSE}
-make
-```
+- To run all analyses, open up the terminal and run
+
+    ```{bash, eval = FALSE}
+    make
+    ```
+
+- To run just the simulations, run
+
+    ```{bash, eval = FALSE}
+    make sims
+    ```
+
+- To run just the real data analyses using the data from 
+@uitdewilligen2013next, run
+
+    ```{bash, eval = FALSE}
+    make uit
+    ```
+
+- Note that running these scripts will result in downloading the real datasets
+used. But you can also download them directly from:
+
+    - <https://doi.org/10.1371/journal.pone.0062355.s004>
+    - <https://doi.org/10.1371/journal.pone.0062355.s007>
+    - <https://doi.org/10.1371/journal.pone.0062355.s009>
+    - <https://doi.org/10.1371/journal.pone.0062355.s010>
+
+    Just make sure that you then place them in the "./data/uit/" directory.
 
 # Additional Results
 
@@ -56,7 +84,11 @@ lapply(c("updog",
          "foreach",
          "doParallel", 
          "ggthemes", 
-         "latex2exp"), 
+         "GGally",
+         "gridExtra",
+         "latex2exp",
+         "matrixStats",
+         "ashr"), 
        FUN = library,
        character.only = TRUE)
 ```

@@ -105,5 +105,15 @@ $(uitclean) : ./code/uit_extract.R $(uitdat)
 	mkdir -p ./output/rout
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
 
+./output/uit/figs/highsdsnp.pdf : ./code/uit_largesd.R ./output/uit/uit_updog_fit.RDS
+	mkdir -p ./output/uit
+	mkdir -p ./output/uit/figs
+	mkdir -p ./output/rout
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
 .PHONY : uit
-uit : ./output/uit/figs/rr_hist.pdf ./output/uit/time_uit.csv ./output/uit/mono_plot.pdf ./output/uit/figs/mle_mom_nav.pdf 
+uit : ./output/uit/figs/rr_hist.pdf \
+      ./output/uit/time_uit.csv \
+      ./output/uit/mono_plot.pdf \
+      ./output/uit/figs/mle_mom_nav.pdf \
+      ./output/uit/figs/highsdsnp.pdf
