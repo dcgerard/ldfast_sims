@@ -48,7 +48,7 @@ for (index in seq_len(nrow(ddf))) {
     theme(strip.background = element_rect(fill = "white")) +
     geom_hline(data = r2df, mapping = aes(yintercept = r2), color = 2, lty = 2) +
     xlab("Sample Size") +
-    ylab(TeX("$\\hat{r}^2$")) ->
+    ylab(TeX("$\\hat{\\rho}^2$")) ->
     pl
 
   ggsave(filename = paste0("./output/sims/r2box_size",
@@ -94,7 +94,7 @@ for (index in seq_len(nrow(ddf))) {
     theme(strip.background = element_rect(fill = "white")) +
     geom_hline(data = Ddf, mapping = aes(yintercept = D), color = 2, lty = 2) +
     xlab("Sample Size") +
-    ylab(TeX("$\\hat{r}^2$")) ->
+    ylab(TeX("$\\hat{\\rho}^2$")) ->
     pl
 
   ggsave(filename = paste0("./output/sims/Dbox_size",
@@ -141,7 +141,7 @@ for (index in seq_len(nrow(ddf))) {
     theme(strip.background = element_rect(fill = "white")) +
     geom_hline(data = Dprimedf, mapping = aes(yintercept = Dprime), color = 2, lty = 2) +
     xlab("Sample Size") +
-    ylab(TeX("$\\hat{r}^2$")) ->
+    ylab(TeX("$\\hat{\\rho}^2$")) ->
     pl
 
   ggsave(filename = paste0("./output/sims/Dprimebox_size",
@@ -174,13 +174,13 @@ simdf %>%
 
 sddf %>%
   mutate(`n and r` = nind == 10 & r == 0.9,
-         `n and r` = case_when(`n and r` ~ "n = 10, r = 0.9",
-                               !`n and r` ~ "other"),
+         `n and r` = case_when(`n and r` ~ "a",
+                               !`n and r` ~ "b"),
          method = recode(method,
-                         D = "hat(D)",
-                         Dprime = "paste(hat(D), minute)",
-                         r2 = "hat(r)^2",
-                         r = "hat(r)",
+                         D = "hat(Delta)",
+                         Dprime = "paste(hat(Delta), minute)",
+                         r2 = "hat(rho)^2",
+                         r = "hat(rho)",
                          z = "hat(z)")) %>%
   ggplot(aes(x = sd_est, m_se, color = `n and r`, shape = `n and r`)) +
   geom_point() +
@@ -190,7 +190,14 @@ sddf %>%
   xlab("MAD of Estimates") +
   ylab("Median of Standard Errors") +
   theme(strip.background = element_rect(fill = "white")) +
-  scale_color_colorblind() ->
+  scale_color_colorblind(
+    name = expression(n~~textstyle(and)~~rho),
+    labels = expression(list(n==10, rho==0.9),paste(textstyle(other), phantom(xxxxxxx)))
+    ) +
+  scale_shape_discrete(
+    name = expression(n~~textstyle(and)~~rho),
+    labels = expression(list(n==10, rho==0.9),paste(textstyle(other), phantom(xxxxxxx)))
+    ) ->
   pl
 
 ggsave(filename = "./output/sims/seplots.pdf",
