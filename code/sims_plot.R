@@ -63,6 +63,33 @@ for (index in seq_len(nrow(ddf))) {
          width = 6.5,
          family = "Times")
 
+  ## black and white r2 figure for publication ----
+  if (near(pA_now, 0.5) && near(pB_now, 0.5) && near(size_now, 10)) {
+    depth10df %>%
+      ggplot(aes(x = nind, y = estimate, fill = method)) +
+      facet_grid(ploidy ~ r2) +
+      geom_boxplot(outlier.size = 0.5) +
+      scale_fill_grey(start = 0.1, end = 0.9) +
+      theme_bw() +
+      theme(strip.background = element_rect(fill = "white")) +
+      geom_hline(data = r2df, mapping = aes(yintercept = r2), color = 2, lty = 2) +
+      xlab("Sample Size") +
+      ylab(TeX("$\\hat{\\rho}^2$")) ->
+      pl
+
+    ggsave(filename = paste0("./output/sims/r2box_size",
+                             size_now,
+                             "_pa",
+                             round(pA_now * 100),
+                             "_pb",
+                             round(pB_now * 100),
+                             "_bw.pdf"),
+           plot = pl,
+           height = 6.5,
+           width = 6.5,
+           family = "Times")
+  }
+
   ## D --------------------------------------------------------------------------
 
   simdf %>%
