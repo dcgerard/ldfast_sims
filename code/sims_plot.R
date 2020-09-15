@@ -174,8 +174,8 @@ simdf %>%
 
 sddf %>%
   mutate(`n and r` = nind == 10 & r == 0.9,
-         `n and r` = case_when(`n and r` ~ "a",
-                               !`n and r` ~ "b"),
+         `n and r` = case_when(`n and r` ~ "b",
+                               !`n and r` ~ "a"),
          method = recode(method,
                          D = "hat(Delta)",
                          Dprime = "paste(hat(Delta), minute)",
@@ -192,11 +192,11 @@ sddf %>%
   theme(strip.background = element_rect(fill = "white")) +
   scale_color_colorblind(
     name = expression(n~~textstyle(and)~~rho),
-    labels = expression(list(n==10, rho==0.9),paste(textstyle(other), phantom(xxxxxxx)))
+    labels = expression(paste(textstyle(other), phantom(xxxxxxxx)), list(n==10, rho==0.9))
     ) +
   scale_shape_discrete(
     name = expression(n~~textstyle(and)~~rho),
-    labels = expression(list(n==10, rho==0.9),paste(textstyle(other), phantom(xxxxxxx)))
+    labels = expression(paste(textstyle(other), phantom(xxxxxxxx)), list(n==10, rho==0.9))
     ) ->
   pl
 
