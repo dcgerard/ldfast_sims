@@ -271,7 +271,7 @@ simdf <- foreach::foreach(i = seq_len(nrow(paramdf)),
                                 ldmle <- ldsep::ldest(ga = foutA$genologlike,
                                                       gb = foutB$genologlike,
                                                       K = paramdf$ploidy[[i]],
-                                                      type = "gam",
+                                                      type = "hap",
                                                       pen = 1.0001)
                               )[[3]]
 
