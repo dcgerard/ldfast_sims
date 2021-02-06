@@ -26,7 +26,7 @@ the results from @gerard2020fast.
 
     ```{r, eval = FALSE}
     install.packages(c("updog", 
-                       "ldsep", 
+                       "devtools", 
                        "tidyverse", 
                        "vcfR",
                        "foreach",
@@ -37,6 +37,7 @@ the results from @gerard2020fast.
                        "latex2exp",
                        "matrixStats",
                        "ashr"))
+    devtools::install_github("dcgerard/ldsep")
     ```
 
 - To run all analyses, open up the terminal and run
@@ -79,6 +80,7 @@ A description of the simulation figures in "./output/sims" can be found [here](.
 ```{r, echo = FALSE, message=FALSE, warning=FALSE, results='hide'}
 lapply(c("updog", 
          "ldsep", 
+         "devtools",
          "tidyverse", 
          "vcfR",
          "foreach",
