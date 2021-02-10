@@ -19,9 +19,9 @@ of linkage disequilibrium (column-facets), and the method used
 dashed red line, and boxplots that concentrate about that line
 indicate superior performance.
 
-The MLE method is that of Gerard (2020a).
+The MLE method is that of Gerard (2021a).
 
-The "MoM" method is the newly developed method of Gerard (2020b).
+The "MoM" method is the newly developed method of Gerard (2021b).
 
 The "Naive" method is just the sample correlation/covariance between
 posterior mean genotypes at both loci. This is what is typically used
@@ -29,6 +29,5 @@ in the literature.
 
 # References
 
-- Gerard, David. 2020a. "Pairwise Linkage Disequilibrium Estimation for Polyploids." *bioRxiv*: [doi:10.1101/2020.08.03.234476](https://doi.org/10.1101/2020.08.03.234476).
-- Gerard, David. 2020b. "Scalable Bias-Corrected Linkage Disequilibrium
-Estimation Under Genotype Uncertainty." *Unpublished Manuscript*.
+- Gerard, David. 2021a. "Pairwise Linkage Disequilibrium Estimation for Polyploids." *Molecular Ecology Resources*: [doi:10.1111/1755-0998.13349](https://doi.org/10.1111/1755-0998.13349).
+- Gerard, David. 2021b. "Scalable Bias-Corrected Linkage Disequilibrium Estimation Under Genotype Uncertainty." *bioRxiv*. [doi:10.1101/2021.02.08.430270](https://doi.org/10.1101/2021.02.08.430270)

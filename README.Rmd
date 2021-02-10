@@ -13,12 +13,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Reproduce the Results of @gerard2020fast
+# Reproduce the Results of @gerard2021fast
 
 ## Introduction
 
 This repository contains the code and instructions needed to reproduce all of
-the results from @gerard2020fast.
+the results from @gerard2021fast.
 
 ## Instructions
 

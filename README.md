@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Reproduce the Results of Gerard (2020)
+# Reproduce the Results of Gerard (2021)
 
 ## Introduction
 
 This repository contains the code and instructions needed to reproduce
-all of the results from Gerard (2020).
+all of the results from Gerard (2021).
 
 ## Instructions
 
@@ -96,14 +96,14 @@ A description of the simulation figures in “./output/sims” can be found
     #>  [9] foreach_1.5.1      vcfR_1.12.0        forcats_0.5.1      stringr_1.4.0     
     #> [13] dplyr_1.0.4        purrr_0.3.4        readr_1.4.0        tidyr_1.1.2       
     #> [17] tibble_3.0.6       ggplot2_3.3.3      tidyverse_1.3.0    devtools_2.3.2    
-    #> [21] usethis_2.0.0      ldsep_2.0.0        updog_2.0.2       
+    #> [21] usethis_2.0.1      ldsep_2.0.0        updog_2.0.2       
     #> 
     #> loaded via a namespace (and not attached):
     #>  [1] colorspace_2.0-0         ellipsis_0.3.1           rprojroot_2.0.2         
-    #>  [4] RcppArmadillo_0.10.1.2.2 fs_1.5.0                 rstudioapi_0.13         
+    #>  [4] RcppArmadillo_0.10.2.1.0 fs_1.5.0                 rstudioapi_0.13         
     #>  [7] listenv_0.8.0            remotes_2.2.0            lubridate_1.7.9.2       
     #> [10] xml2_1.3.2               codetools_0.2-18         splines_4.0.3           
-    #> [13] cachem_1.0.2             knitr_1.31               pkgload_1.1.0           
+    #> [13] cachem_1.0.3             knitr_1.31               pkgload_1.1.0           
     #> [16] jsonlite_1.7.2           broom_0.7.4              cluster_2.1.0           
     #> [19] dbplyr_2.1.0             compiler_4.0.3           httr_1.4.2              
     #> [22] backports_1.2.1          assertthat_0.2.1         Matrix_1.3-2            
@@ -111,7 +111,7 @@ A description of the simulation figures in “./output/sims” can be found
     #> [28] prettyunits_1.1.1        tools_4.0.3              gtable_0.3.0            
     #> [31] glue_1.4.2               doRNG_1.8.2              Rcpp_1.0.6              
     #> [34] cellranger_1.1.0         vctrs_0.3.6              ape_5.4-1               
-    #> [37] nlme_3.1-151             pinfsc50_1.2.0           xfun_0.20               
+    #> [37] nlme_3.1-152             pinfsc50_1.2.0           xfun_0.20               
     #> [40] globals_0.14.0           ps_1.5.0                 testthat_3.0.1          
     #> [43] rvest_0.3.6              irlba_2.3.3              lifecycle_0.2.0         
     #> [46] rngtools_1.5             future_1.21.0            MASS_7.3-53             
@@ -125,7 +125,7 @@ A description of the simulation figures in “./output/sims” can be found
     #> [70] magrittr_2.0.1           R6_2.5.0                 generics_0.1.0          
     #> [73] DBI_1.1.1                pillar_1.4.7             haven_2.3.1             
     #> [76] withr_2.4.1              mgcv_1.8-33              mixsqp_0.3-43           
-    #> [79] modelr_0.1.8             crayon_1.4.0             doFuture_0.12.0         
+    #> [79] modelr_0.1.8             crayon_1.4.1             doFuture_0.12.0         
     #> [82] rmarkdown_2.6            grid_4.0.3               readxl_1.3.1            
     #> [85] callr_3.5.1              vegan_2.5-7              reprex_1.0.0            
     #> [88] digest_0.6.27            munsell_0.5.0            viridisLite_0.3.0       
@@ -135,10 +135,11 @@ A description of the simulation figures in “./output/sims” can be found
 
 <div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-gerard2020fast" class="csl-entry">
+<div id="ref-gerard2021fast" class="csl-entry">
 
-Gerard, David. 2020. “Scalable Bias-Corrected Linkage Disequilibrium
-Estimation Under Genotype Uncertainty.” *Unpublished Manuscript*.
+Gerard, David. 2021. “Scalable Bias-Corrected Linkage Disequilibrium
+Estimation Under Genotype Uncertainty.” *bioRxiv*.
+<https://doi.org/10.1101/2021.02.08.430270>.
 
 </div>
 
