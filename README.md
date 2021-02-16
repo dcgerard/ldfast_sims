@@ -3,6 +3,8 @@
 
 # Reproduce the Results of Gerard (2021)
 
+[![DOI](https://zenodo.org/badge/289036114.svg)](https://zenodo.org/badge/latestdoi/289036114)
+
 ## Introduction
 
 This repository contains the code and instructions needed to reproduce
