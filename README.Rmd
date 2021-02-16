@@ -36,8 +36,8 @@ the results from @gerard2021fast.
                        "gridExtra",
                        "latex2exp",
                        "matrixStats",
-                       "ashr"))
-    devtools::install_github("dcgerard/ldsep")
+                       "ashr",
+                       "ldsep"))
     ```
 
 - To run all analyses, open up the terminal and run

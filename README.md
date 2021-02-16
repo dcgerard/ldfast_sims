@@ -25,8 +25,8 @@ all of the results from Gerard (2021).
                        "gridExtra",
                        "latex2exp",
                        "matrixStats",
-                       "ashr"))
-    devtools::install_github("dcgerard/ldsep")
+                       "ashr",
+                       "ldsep"))
     ```
 
 -   To run all analyses, open up the terminal and run
@@ -96,7 +96,7 @@ A description of the simulation figures in “./output/sims” can be found
     #>  [9] foreach_1.5.1      vcfR_1.12.0        forcats_0.5.1      stringr_1.4.0     
     #> [13] dplyr_1.0.4        purrr_0.3.4        readr_1.4.0        tidyr_1.1.2       
     #> [17] tibble_3.0.6       ggplot2_3.3.3      tidyverse_1.3.0    devtools_2.3.2    
-    #> [21] usethis_2.0.1      ldsep_2.0.0        updog_2.0.2       
+    #> [21] usethis_2.0.1      ldsep_2.0.2        updog_2.1.0       
     #> 
     #> loaded via a namespace (and not attached):
     #>  [1] colorspace_2.0-0         ellipsis_0.3.1           rprojroot_2.0.2         
@@ -111,7 +111,7 @@ A description of the simulation figures in “./output/sims” can be found
     #> [28] prettyunits_1.1.1        tools_4.0.3              gtable_0.3.0            
     #> [31] glue_1.4.2               doRNG_1.8.2              Rcpp_1.0.6              
     #> [34] cellranger_1.1.0         vctrs_0.3.6              ape_5.4-1               
-    #> [37] nlme_3.1-152             pinfsc50_1.2.0           xfun_0.20               
+    #> [37] nlme_3.1-152             pinfsc50_1.2.0           xfun_0.21               
     #> [40] globals_0.14.0           ps_1.5.0                 testthat_3.0.1          
     #> [43] rvest_0.3.6              irlba_2.3.3              lifecycle_0.2.0         
     #> [46] rngtools_1.5             future_1.21.0            MASS_7.3-53             
