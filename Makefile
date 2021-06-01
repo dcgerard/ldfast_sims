@@ -4,7 +4,7 @@
 # parallelization. This could also be specified automatically using
 # environment variables. For example, in SLURM, SLURM_CPUS_PER_TASK
 # specifies the number of CPUs allocated for each task.
-nc = 6
+nc = 12
 
 # R scripting front-end. Note that makeCluster sometimes fails to
 # connect to a socker when using Rscript, so we are using the "R CMD
@@ -46,8 +46,8 @@ uitclean = ./output/uit/uit_suc.csv \
            ./output/uit/refmat_suc.RDS \
            ./output/uit/sizemat_suc.RDS
 
-
-all : sims uit
+.PHONY : all
+all : sims uit maf
 
 # Pairwise LD estimation simulations ---------------
 ./output/sims/simout.csv : ./code/sims_run.R
@@ -117,3 +117,23 @@ uit : ./output/uit/figs/rr_hist.pdf \
       ./output/uit/mono_plot.pdf \
       ./output/uit/figs/mle_mom_nav.pdf \
       ./output/uit/figs/highsdsnp.pdf
+
+# Deeper exploration of small minor allele frequency
+
+.PHONY : maf
+maf : ./output/maf/mafout.csv
+
+./output/maf/mafout.csv : ./code/maf_run.R
+	mkdir -p ./output/maf
+	mkdir -p ./output/Rout
+	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
+
+# Briefly look at exploration of prior
+
+.PHONY : prior
+prior : ./output/prior/priorout.csv
+
+./output/prior/priorout.csv : ./code/prior_sims.R
+	mkdir -p ./output/maf
+	mkdir -p ./output/Rout
+	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
