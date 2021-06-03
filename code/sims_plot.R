@@ -234,39 +234,3 @@ ggsave(filename = "./output/sims/seplots_ll.pdf",
        height = 4,
        width = 6.5,
        family = "Times")
-
-## Black and white figure
-
-sddf %>%
-  mutate(`n and r` = nind == 10 & r == 0.9,
-         `n and r` = case_when(`n and r` ~ "b",
-                               !`n and r` ~ "a"),
-         method = recode(method,
-                         D = "hat(Delta)",
-                         Dprime = "paste(hat(Delta), minute)",
-                         r2 = "hat(rho)^2",
-                         r = "hat(rho)",
-                         z = "hat(z)")) %>%
-  ggplot(aes(x = sd_est, m_se, color = `n and r`, shape = `n and r`)) +
-  geom_point() +
-  facet_wrap(.~method, scales = "free", labeller = label_parsed) +
-  geom_abline(slope = 1, intercept = 0) +
-  theme_bw() +
-  xlab("MAD of Estimates") +
-  ylab("Median of Standard Errors") +
-  theme(strip.background = element_rect(fill = "white")) +
-  scale_color_grey(start = 0, end = 0.5,
-    name = expression(n~~textstyle(and)~~rho),
-    labels = expression(paste(textstyle(other), phantom(xxxxxxxx)), list(n==10, rho==0.9))
-  ) +
-  scale_shape_discrete(
-    name = expression(n~~textstyle(and)~~rho),
-    labels = expression(paste(textstyle(other), phantom(xxxxxxxx)), list(n==10, rho==0.9))
-  ) ->
-  pl
-
-ggsave(filename = "./output/sims/seplots_bw.pdf",
-       plot = pl,
-       height = 4,
-       width = 6.5,
-       family = "Times")
