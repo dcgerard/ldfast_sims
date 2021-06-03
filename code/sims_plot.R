@@ -194,40 +194,42 @@ simdf %>%
   spread(key = type, value = value) %>%
   group_by(nind, size, ploidy, pA, pB, r, method) %>%
   filter(is.finite(est)) %>%
-  summarize(sd_est = mad(est, na.rm = TRUE),
-            m_se = median(se, na.rm = TRUE)) %>%
-  ungroup() ->
+  summarize(sd_est = sd(est, na.rm = TRUE),
+            m_se = mean(se, na.rm = TRUE)) %>%
+  ungroup() %>%
+  filter(m_se < 10000) ->
   sddf
 
 sddf %>%
-  mutate(`n and r` = nind == 10 & r == 0.9,
-         `n and r` = case_when(`n and r` ~ "b",
-                               !`n and r` ~ "a"),
-         method = recode(method,
+  mutate(method = recode(method,
                          D = "hat(Delta)",
                          Dprime = "paste(hat(Delta), minute)",
                          r2 = "hat(rho)^2",
                          r = "hat(rho)",
-                         z = "hat(z)")) %>%
-  ggplot(aes(x = sd_est, m_se, color = `n and r`, shape = `n and r`)) +
+                         z = "hat(z)"),
+         nind = as.factor(nind)) %>%
+  ggplot(aes(x = sd_est, m_se, color = nind, shape = nind)) +
   geom_point() +
   facet_wrap(.~method, scales = "free", labeller = label_parsed) +
   geom_abline(slope = 1, intercept = 0) +
   theme_bw() +
-  xlab("MAD of Estimates") +
-  ylab("Median of Standard Errors") +
+  xlab("Standard Deviation of Estimates") +
+  ylab("Mean of Standard Errors") +
   theme(strip.background = element_rect(fill = "white")) +
-  scale_color_colorblind(
-    name = expression(n~~textstyle(and)~~rho),
-    labels = expression(paste(textstyle(other), phantom(xxxxxxxx)), list(n==10, rho==0.9))
-    ) +
-  scale_shape_discrete(
-    name = expression(n~~textstyle(and)~~rho),
-    labels = expression(paste(textstyle(other), phantom(xxxxxxxx)), list(n==10, rho==0.9))
-    ) ->
+  scale_color_colorblind(name = "Sample\nSize") +
+  scale_shape_discrete(name = "Sample\nSize") ->
   pl
 
 ggsave(filename = "./output/sims/seplots.pdf",
+       plot = pl,
+       height = 4,
+       width = 6.5,
+       family = "Times")
+
+pl + scale_x_log10() + scale_y_log10() ->
+  pl
+
+ggsave(filename = "./output/sims/seplots_ll.pdf",
        plot = pl,
        height = 4,
        width = 6.5,
