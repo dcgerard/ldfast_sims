@@ -16,19 +16,21 @@ all of the results from Gerard (2021).
     install the required R packages, run the following in R:
 
     ``` r
-    install.packages(c("updog", 
-                       "devtools", 
-                       "tidyverse", 
-                       "vcfR",
-                       "foreach",
-                       "doParallel", 
-                       "ggthemes", 
-                       "GGally",
-                       "gridExtra",
-                       "latex2exp",
-                       "matrixStats",
-                       "ashr",
-                       "ldsep"))
+    install.packages("BiocManager")
+    BiocManager::install(c("devtools", 
+                           "tidyverse", 
+                           "vcfR",
+                           "foreach",
+                           "doParallel", 
+                           "ggthemes", 
+                           "GGally",
+                           "gridExtra",
+                           "latex2exp",
+                           "matrixStats",
+                           "ashr",
+                           "polyRAD"))
+    devtools::install_github("dcgerard/updog")
+    devtools::install_github("dcgerard/ldsep")
     ```
 
 -   To run all analyses, open up the terminal and run
@@ -37,10 +39,24 @@ all of the results from Gerard (2021).
     make
     ```
 
--   To run just the simulations, run
+-   To run just the simulations evaluating common variants, run
 
     ``` bash
     make sims
+    ```
+
+-   To run just the simulations evaluating rare variants and effects of
+    shrinkage, run
+
+    ``` bash
+    make maf
+    ```
+
+-   To run just the simulations evaluating the effects of the prior
+    genotyping distribution, run
+
+    ``` bash
+    make prior
     ```
 
 -   To run just the real data analyses using the data from
@@ -72,7 +88,7 @@ A description of the simulation figures in “./output/sims” can be found
 
 # Session Information
 
-    #> R version 4.0.3 (2020-10-10)
+    #> R version 4.1.0 (2021-05-18)
     #> Platform: x86_64-pc-linux-gnu (64-bit)
     #> Running under: Ubuntu 20.04.2 LTS
     #> 
@@ -93,45 +109,45 @@ A description of the simulation figures in “./output/sims” can be found
     #> [8] base     
     #> 
     #> other attached packages:
-    #>  [1] ashr_2.2-47        matrixStats_0.58.0 latex2exp_0.4.0    gridExtra_2.3     
-    #>  [5] GGally_2.1.0       ggthemes_4.2.4     doParallel_1.0.16  iterators_1.0.13  
+    #>  [1] ashr_2.2-47        matrixStats_0.59.0 latex2exp_0.5.0    gridExtra_2.3     
+    #>  [5] GGally_2.1.1       ggthemes_4.2.4     doParallel_1.0.16  iterators_1.0.13  
     #>  [9] foreach_1.5.1      vcfR_1.12.0        forcats_0.5.1      stringr_1.4.0     
-    #> [13] dplyr_1.0.4        purrr_0.3.4        readr_1.4.0        tidyr_1.1.2       
-    #> [17] tibble_3.0.6       ggplot2_3.3.3      tidyverse_1.3.0    devtools_2.3.2    
-    #> [21] usethis_2.0.1      ldsep_2.0.2        updog_2.1.0       
+    #> [13] dplyr_1.0.6        purrr_0.3.4        readr_1.4.0        tidyr_1.1.3       
+    #> [17] tibble_3.1.2       ggplot2_3.3.3      tidyverse_1.3.1    devtools_2.4.1    
+    #> [21] usethis_2.0.1      ldsep_2.0.3        updog_2.1.0       
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] colorspace_2.0-0         ellipsis_0.3.1           rprojroot_2.0.2         
-    #>  [4] RcppArmadillo_0.10.2.1.0 fs_1.5.0                 rstudioapi_0.13         
-    #>  [7] listenv_0.8.0            remotes_2.2.0            lubridate_1.7.9.2       
-    #> [10] xml2_1.3.2               codetools_0.2-18         splines_4.0.3           
-    #> [13] cachem_1.0.3             knitr_1.31               pkgload_1.1.0           
-    #> [16] jsonlite_1.7.2           broom_0.7.4              cluster_2.1.0           
-    #> [19] dbplyr_2.1.0             compiler_4.0.3           httr_1.4.2              
-    #> [22] backports_1.2.1          assertthat_0.2.1         Matrix_1.3-2            
-    #> [25] fastmap_1.1.0            cli_2.3.0                htmltools_0.5.1.1       
-    #> [28] prettyunits_1.1.1        tools_4.0.3              gtable_0.3.0            
-    #> [31] glue_1.4.2               doRNG_1.8.2              Rcpp_1.0.6              
-    #> [34] cellranger_1.1.0         vctrs_0.3.6              ape_5.4-1               
-    #> [37] nlme_3.1-152             pinfsc50_1.2.0           xfun_0.21               
-    #> [40] globals_0.14.0           ps_1.5.0                 testthat_3.0.1          
-    #> [43] rvest_0.3.6              irlba_2.3.3              lifecycle_0.2.0         
-    #> [46] rngtools_1.5             future_1.21.0            MASS_7.3-53             
-    #> [49] scales_1.1.1             hms_1.0.0                RColorBrewer_1.1-2      
-    #> [52] yaml_2.2.1               memoise_2.0.0            reshape_0.8.8           
-    #> [55] stringi_1.5.3            SQUAREM_2021.1           desc_1.2.0              
-    #> [58] permute_0.9-5            pkgbuild_1.2.0           truncnorm_1.0-8         
-    #> [61] rlang_0.4.10             pkgconfig_2.0.3          invgamma_1.1            
-    #> [64] evaluate_0.14            lattice_0.20-41          processx_3.4.5          
-    #> [67] tidyselect_1.1.0         parallelly_1.23.0        plyr_1.8.6              
-    #> [70] magrittr_2.0.1           R6_2.5.0                 generics_0.1.0          
-    #> [73] DBI_1.1.1                pillar_1.4.7             haven_2.3.1             
-    #> [76] withr_2.4.1              mgcv_1.8-33              mixsqp_0.3-43           
-    #> [79] modelr_0.1.8             crayon_1.4.1             doFuture_0.12.0         
-    #> [82] rmarkdown_2.6            grid_4.0.3               readxl_1.3.1            
-    #> [85] callr_3.5.1              vegan_2.5-7              reprex_1.0.0            
-    #> [88] digest_0.6.27            munsell_0.5.0            viridisLite_0.3.0       
-    #> [91] sessioninfo_1.1.1
+    #>  [1] colorspace_2.0-1         ellipsis_0.3.2           rprojroot_2.0.2         
+    #>  [4] RcppArmadillo_0.10.5.0.0 fs_1.5.0                 rstudioapi_0.13         
+    #>  [7] listenv_0.8.0            remotes_2.4.0            fansi_0.5.0             
+    #> [10] lubridate_1.7.10         xml2_1.3.2               codetools_0.2-18        
+    #> [13] splines_4.1.0            cachem_1.0.5             knitr_1.33              
+    #> [16] pkgload_1.2.1            jsonlite_1.7.2           broom_0.7.6             
+    #> [19] cluster_2.1.2            dbplyr_2.1.1             compiler_4.1.0          
+    #> [22] httr_1.4.2               backports_1.2.1          assertthat_0.2.1        
+    #> [25] Matrix_1.3-3             fastmap_1.1.0            cli_2.5.0               
+    #> [28] htmltools_0.5.1.1        prettyunits_1.1.1        tools_4.1.0             
+    #> [31] gtable_0.3.0             glue_1.4.2               doRNG_1.8.2             
+    #> [34] Rcpp_1.0.6               cellranger_1.1.0         vctrs_0.3.8             
+    #> [37] ape_5.5                  nlme_3.1-152             pinfsc50_1.2.0          
+    #> [40] xfun_0.23                globals_0.14.0           ps_1.6.0                
+    #> [43] testthat_3.0.2           rvest_1.0.0              irlba_2.3.3             
+    #> [46] lifecycle_1.0.0          rngtools_1.5             future_1.21.0           
+    #> [49] MASS_7.3-54              scales_1.1.1             hms_1.1.0               
+    #> [52] RColorBrewer_1.1-2       yaml_2.2.1               memoise_2.0.0           
+    #> [55] reshape_0.8.8            stringi_1.6.2            SQUAREM_2021.1          
+    #> [58] desc_1.3.0               permute_0.9-5            pkgbuild_1.2.0          
+    #> [61] truncnorm_1.0-8          rlang_0.4.11             pkgconfig_2.0.3         
+    #> [64] invgamma_1.1             evaluate_0.14            lattice_0.20-44         
+    #> [67] processx_3.5.2           tidyselect_1.1.1         parallelly_1.25.0       
+    #> [70] plyr_1.8.6               magrittr_2.0.1           R6_2.5.0                
+    #> [73] generics_0.1.0           DBI_1.1.1                pillar_1.6.1            
+    #> [76] haven_2.4.1              withr_2.4.2              mgcv_1.8-35             
+    #> [79] mixsqp_0.3-43            modelr_0.1.8             crayon_1.4.1            
+    #> [82] utf8_1.2.1               doFuture_0.12.0          rmarkdown_2.8           
+    #> [85] grid_4.1.0               readxl_1.3.1             callr_3.7.0             
+    #> [88] vegan_2.5-7              reprex_2.0.0             digest_0.6.27           
+    #> [91] munsell_0.5.0            viridisLite_0.4.0        sessioninfo_1.1.1
 
 ## References
 

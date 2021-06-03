@@ -27,19 +27,21 @@ the results from @gerard2021fast.
 - You will need an up-to-date version of R, GNU make, and 7zip. To install the required R packages, run the following in R:
 
     ```{r, eval = FALSE}
-    install.packages(c("updog", 
-                       "devtools", 
-                       "tidyverse", 
-                       "vcfR",
-                       "foreach",
-                       "doParallel", 
-                       "ggthemes", 
-                       "GGally",
-                       "gridExtra",
-                       "latex2exp",
-                       "matrixStats",
-                       "ashr",
-                       "ldsep"))
+    install.packages("BiocManager")
+    BiocManager::install(c("devtools", 
+                           "tidyverse", 
+                           "vcfR",
+                           "foreach",
+                           "doParallel", 
+                           "ggthemes", 
+                           "GGally",
+                           "gridExtra",
+                           "latex2exp",
+                           "matrixStats",
+                           "ashr",
+                           "polyRAD"))
+    devtools::install_github("dcgerard/updog")
+    devtools::install_github("dcgerard/ldsep")
     ```
 
 - To run all analyses, open up the terminal and run
@@ -48,10 +50,22 @@ the results from @gerard2021fast.
     make
     ```
 
-- To run just the simulations, run
+- To run just the simulations evaluating common variants, run
 
     ```{bash, eval = FALSE}
     make sims
+    ```
+    
+- To run just the simulations evaluating rare variants and effects of shrinkage, run
+
+    ```{bash, eval = FALSE}
+    make maf
+    ```
+    
+- To run just the simulations evaluating the effects of the prior genotyping distribution, run
+
+    ```{bash, eval = FALSE}
+    make prior
     ```
 
 - To run just the real data analyses using the data from 

@@ -4,14 +4,31 @@
 
 library(dplyr)
 library(updog)
-library(fitPoly)
 library(ldsep)
+library(polyRAD)
+library(foreach)
+library(doParallel)
+
+# Number of threads to use for multithreaded computing. This must be
+# specified in the command-line shell; e.g., to use 8 threads, run
+# command
+#
+#  R CMD BATCH '--args nc=8' sims.R
+#
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args) == 0) {
+  nc <- 1
+} else {
+  eval(parse(text = args[[1]]))
+}
+
+cat(nc, "\n")
 
 ploidy <- 8
 horse_prior <- c(0.45, rep(0.1 / (ploidy - 1), ploidy - 1), 0.45)
 
-nind <- c(10, 100, 1000)
-size <- c(10, 100)
+nind <- c(10, 100, 1000, 10000)
+size <- c(5, 10, 100)
 seq <- 0.01
 od <- 0.01
 bias <- 1
@@ -44,7 +61,7 @@ stopifnot(paramdf$pAB >= 0, paramdf$pAB <= 1)
 
 paramdf %>%
   mutate(updog_rho = NA_real_,
-         fitPoly_rho = NA_real_,
+         polyrad_rho = NA_real_,
          uniform_rho = NA_real_,
          horse_rho = NA_real_) ->
   paramdf
@@ -120,26 +137,30 @@ simdf <- foreach::foreach(i = seq_len(nrow(paramdf)),
                                                       od          = paramdf$od[[i]],
                                                       update_od   = FALSE,
                                                       model       = "hw")
+                            gp_updog <- aperm(array(c(updog_A$postmat, updog_B$postmat), dim = c(dim(updog_A$postmat), 2)), perm = c(3, 1, 2))
 
-                            ## Run fitPoly ------------------------------------
-                            fa_df <- data.frame(MarkerName = "A",
-                                                SampleName = paste0("S", seq_len(paramdf$nind[[i]])),
-                                                ratio = refA / sizevec)
 
-                            fb_df <- data.frame(MarkerName = "B",
-                                                SampleName = paste0("S", seq_len(paramdf$nind[[i]])),
-                                                ratio = refB / sizevec)
-
-                            fitpoly_A <- fitPoly::fitOneMarker(ploidy = paramdf$ploidy[[i]],
-                                                               marker = "A",
-                                                               data = fa_df,
-                                                               p.threshold = 1,
-                                                               call.threshold = 0)
-                            fitpoly_B <- fitPoly::fitOneMarker(ploidy = paramdf$ploidy[[i]],
-                                                               marker = "B",
-                                                               data = fb_df,
-                                                               p.threshold = 1,
-                                                               call.threshold = 0)
+                            ## Use polyRAD ------------------------------------
+                            alleleDepth <- cbind("SNP1_A" = refA,
+                                                 "SNP1_a" = sizevec - refA,
+                                                 "SNP2_A" = refB,
+                                                 "SNP2_a" = sizevec - refB)
+                            rownames(alleleDepth) <- paste0("ind", seq_len(nrow(alleleDepth)))
+                            class(alleleDepth) <- "integer"
+                            alleles2loc <- c(1L, 1L, 2L, 2L)
+                            locTable <- data.frame(Chr = rep(1, 2))
+                            rownames(locTable) <- c("SNP1", "SNP2")
+                            possiblePloidies <- list(ploidy)
+                            contamRate <- 0.01
+                            alleleNucleotides <- c("A", "C", "A", "C")
+                            rd <- polyRAD::RADdata(alleleDepth = alleleDepth,
+                                                   alleles2loc = alleles2loc,
+                                                   locTable = locTable,
+                                                   possiblePloidies = possiblePloidies,
+                                                   contamRate = contamRate,
+                                                   alleleNucleotides = alleleNucleotides)
+                            mydataHWE <- polyRAD::IterateHWE(rd, overdispersion = 9)
+                            gp_polyrad <- aperm(mydataHWE$posteriorProb[[1]][,,c(1, 3)], c(3, 2, 1))
 
                             ## Use uniform prior ------------------------------
                             suppressWarnings({
@@ -166,6 +187,7 @@ simdf <- foreach::foreach(i = seq_len(nrow(paramdf)),
                                                      update_od   = FALSE,
                                                      model       = "uniform")
                             })
+                            gp_unif <- aperm(array(c(unif_A$postmat, unif_B$postmat), dim = c(dim(unif_A$postmat), 2)), perm = c(3, 1, 2))
 
                             ## Use horseshoe fixed prior ----------------------
                             horse_A <- updog::flexdog(refvec      = refA,
@@ -192,6 +214,39 @@ simdf <- foreach::foreach(i = seq_len(nrow(paramdf)),
                                                       update_od   = FALSE,
                                                       model       = "custom",
                                                       prior_vec   = horse_prior)
+                            gp_horse <- aperm(array(c(horse_A$postmat, horse_B$postmat), dim = c(dim(horse_A$postmat), 2)), perm = c(3, 1, 2))
 
+                            ## Fit ldsep using different posterior matrices
+                            ldf_updog <- ldfast(gp = gp_updog,
+                                                type = "r",
+                                                shrinkrr = FALSE,
+                                                se = TRUE,
+                                                thresh = FALSE)
+
+                            ldf_polyrad <- ldfast(gp = gp_polyrad,
+                                                  type = "r",
+                                                  shrinkrr = FALSE,
+                                                  se = TRUE,
+                                                  thresh = FALSE)
+
+                            ldf_unif <- ldfast(gp = gp_unif,
+                                               type = "r",
+                                               shrinkrr = FALSE,
+                                               se = TRUE,
+                                               thresh = FALSE)
+
+                            ldf_horse <- ldfast(gp = gp_horse,
+                                                type = "r",
+                                                shrinkrr = FALSE,
+                                                se = TRUE,
+                                                thresh = FALSE)
+
+                            paramdf$updog_rho[[i]] <- ldf_updog$ldmat[1, 2]
+                            paramdf$polyrad_rho[[i]] <- ldf_polyrad$ldmat[1, 2]
+                            paramdf$uniform_rho[[i]] <- ldf_unif$ldmat[1, 2]
+                            paramdf$horse_rho[[i]] <- ldf_horse$ldmat[1, 2]
+
+                            paramdf[i, ]
                             }
 
+write.csv(x = simdf, file = "./output/prior/prior_sims_out.csv", row.names = FALSE)

@@ -4,7 +4,7 @@
 # parallelization. This could also be specified automatically using
 # environment variables. For example, in SLURM, SLURM_CPUS_PER_TASK
 # specifies the number of CPUs allocated for each task.
-nc = 12
+nc = 6
 
 # R scripting front-end. Note that makeCluster sometimes fails to
 # connect to a socker when using Rscript, so we are using the "R CMD
@@ -46,8 +46,19 @@ uitclean = ./output/uit/uit_suc.csv \
            ./output/uit/refmat_suc.RDS \
            ./output/uit/sizemat_suc.RDS
 
+# Updog fits on simulated data for small minor allele frequencies
+mafufit = ./output/maf/ufit/maf_ufit_ploidy2_nind100.RDS \
+          ./output/maf/ufit/maf_ufit_ploidy4_nind100.RDS \
+          ./output/maf/ufit/maf_ufit_ploidy6_nind100.RDS \
+          ./output/maf/ufit/maf_ufit_ploidy8_nind100.RDS \
+          ./output/maf/ufit/maf_ufit_ploidy2_nind1000.RDS \
+          ./output/maf/ufit/maf_ufit_ploidy4_nind1000.RDS \
+          ./output/maf/ufit/maf_ufit_ploidy6_nind1000.RDS \
+          ./output/maf/ufit/maf_ufit_ploidy8_nind1000.RDS
+
+# Run simulations
 .PHONY : all
-all : sims uit maf
+all : sims uit maf prior
 
 # Pairwise LD estimation simulations ---------------
 ./output/sims/simout.csv : ./code/sims_run.R
@@ -121,19 +132,29 @@ uit : ./output/uit/figs/rr_hist.pdf \
 # Deeper exploration of small minor allele frequency
 
 .PHONY : maf
-maf : ./output/maf/mafout.csv
+maf : ./output/maf/maf_ldfits.csv
 
-./output/maf/mafout.csv : ./code/maf_run.R
+./output/maf/maf_reads.RData : ./code/maf_data.R
 	mkdir -p ./output/maf
-	mkdir -p ./output/Rout
+	mkdir -p ./output/rout
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
+$(mafufit) : ./code/maf_updog.R ./output/maf/maf_reads.RData
+	mkdir -p ./output/maf
+	mkdir -p ./output/rout
+	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
+
+./output/maf/maf_ldfits.csv : ./code/maf_ldest.R $(mafufit)
+	mkdir -p ./output/maf
+	mkdir -p ./output/rout
 	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
 
 # Briefly look at exploration of prior
 
 .PHONY : prior
-prior : ./output/prior/priorout.csv
+prior : ./output/prior/prior_sims_out.csv
 
-./output/prior/priorout.csv : ./code/prior_sims.R
-	mkdir -p ./output/maf
-	mkdir -p ./output/Rout
+./output/prior/prior_sims_out.csv : ./code/prior_sims.R
+	mkdir -p ./output/prior
+	mkdir -p ./output/rout
 	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
