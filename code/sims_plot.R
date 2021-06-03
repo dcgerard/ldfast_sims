@@ -121,7 +121,7 @@ for (index in seq_len(nrow(ddf))) {
     theme(strip.background = element_rect(fill = "white")) +
     geom_hline(data = Ddf, mapping = aes(yintercept = D), color = 2, lty = 2) +
     xlab("Sample Size") +
-    ylab(TeX("$\\hat{\\rho}^2$")) ->
+    ylab(TeX("$\\hat{\\Delta}$")) ->
     pl
 
   ggsave(filename = paste0("./output/sims/Dbox_size",
@@ -168,7 +168,7 @@ for (index in seq_len(nrow(ddf))) {
     theme(strip.background = element_rect(fill = "white")) +
     geom_hline(data = Dprimedf, mapping = aes(yintercept = Dprime), color = 2, lty = 2) +
     xlab("Sample Size") +
-    ylab(TeX("$\\hat{\\rho}^2$")) ->
+    ylab(TeX("$\\hat{\\Delta}$")) ->
     pl
 
   ggsave(filename = paste0("./output/sims/Dprimebox_size",
