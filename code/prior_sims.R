@@ -159,7 +159,7 @@ simdf <- foreach::foreach(i = seq_len(nrow(paramdf)),
                                                    possiblePloidies = possiblePloidies,
                                                    contamRate = contamRate,
                                                    alleleNucleotides = alleleNucleotides)
-                            mydataHWE <- polyRAD::IterateHWE(rd, overdispersion = 9)
+                            mydataHWE <- polyRAD::IterateHWE(rd, overdispersion = (1 - paramdf$od[[i]]) / paramdf$od[[i]])
                             gp_polyrad <- aperm(mydataHWE$posteriorProb[[1]][,,c(1, 3)], c(3, 2, 1))
 
                             ## Use uniform prior ------------------------------

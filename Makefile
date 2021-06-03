@@ -152,9 +152,14 @@ $(mafufit) : ./code/maf_updog.R ./output/maf/maf_reads.RData
 # Briefly look at exploration of prior
 
 .PHONY : prior
-prior : ./output/prior/prior_sims_out.csv
+prior : ./output/prior/prior_box.pdf
 
 ./output/prior/prior_sims_out.csv : ./code/prior_sims.R
 	mkdir -p ./output/prior
 	mkdir -p ./output/rout
 	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
+
+./output/prior/prior_box.pdf : ./code/prior_plot.R ./output/prior/prior_sims_out.csv
+	mkdir -p ./output/maf
+	mkdir -p ./output/rout
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
