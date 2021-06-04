@@ -50,6 +50,9 @@ for (index in seq_len(nrow(ddf))) {
     xlab("Sample Size") +
     ylab(TeX("$\\hat{\\rho}^2$")) ->
     pl
+  if (!(near(pA_now, 0.5) && near(pB_now, 0.5) && near(size_now, 10))) {
+    pl <- pl + ggtitle(TeX(paste0("Depth = ", size_now, ", $(p_A, p_B)$ = (", pA_now, ",", pB_now, ")")))
+  }
 
   ggsave(filename = paste0("./output/sims/r2box_size",
                            size_now,
@@ -103,7 +106,8 @@ for (index in seq_len(nrow(ddf))) {
            MoM = fast_D_est,
            MLE = mle_D_est) %>%
     gather(-nind, -size, -ploidy, -pA, -pB, -D, key = "method", value = "estimate") %>%
-    mutate(nind = as.factor(nind)) %>%
+    mutate(nind = as.factor(nind),
+           D = round(D, digits = 3)) %>%
     filter(size == size_now, pA == pA_now, pB == pB_now) ->
     depth10df
 
@@ -121,7 +125,8 @@ for (index in seq_len(nrow(ddf))) {
     theme(strip.background = element_rect(fill = "white")) +
     geom_hline(data = Ddf, mapping = aes(yintercept = D), color = 2, lty = 2) +
     xlab("Sample Size") +
-    ylab(TeX("$\\hat{\\Delta}$")) ->
+    ylab(TeX("$\\hat{\\Delta}$")) +
+    ggtitle(TeX(paste0("Depth = ", size_now, ", $(p_A, p_B)$ = (", pA_now, ",", pB_now, ")")))->
     pl
 
   ggsave(filename = paste0("./output/sims/Dbox_size",
@@ -150,7 +155,8 @@ for (index in seq_len(nrow(ddf))) {
            MoM = fast_Dprime_est,
            MLE = mle_Dprime_est) %>%
     gather(-nind, -size, -ploidy, -pA, -pB, -Dprime, key = "method", value = "estimate") %>%
-    mutate(nind = as.factor(nind)) %>%
+    mutate(nind = as.factor(nind),
+           Dprime = round(Dprime, digits = 3)) %>%
     filter(size == size_now, pA == pA_now, pB == pB_now) ->
     depth10df
 
@@ -168,7 +174,8 @@ for (index in seq_len(nrow(ddf))) {
     theme(strip.background = element_rect(fill = "white")) +
     geom_hline(data = Dprimedf, mapping = aes(yintercept = Dprime), color = 2, lty = 2) +
     xlab("Sample Size") +
-    ylab(TeX("$\\hat{\\Delta}$")) ->
+    ylab(TeX("$\\hat{\\Delta}$")) +
+    ggtitle(TeX(paste0("Depth = ", size_now, ", $(p_A, p_B)$ = (", pA_now, ",", pB_now, ")")))->
     pl
 
   ggsave(filename = paste0("./output/sims/Dprimebox_size",
