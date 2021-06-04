@@ -174,7 +174,7 @@ for (index in seq_len(nrow(ddf))) {
     theme(strip.background = element_rect(fill = "white")) +
     geom_hline(data = Dprimedf, mapping = aes(yintercept = Dprime), color = 2, lty = 2) +
     xlab("Sample Size") +
-    ylab(TeX("$\\hat{\\Delta}$")) +
+    ylab(TeX("$\\hat{\\Delta}^\\prime$")) +
     ggtitle(TeX(paste0("Depth = ", size_now, ", $(p_A, p_B)$ = (", pA_now, ",", pB_now, ")")))->
     pl
 
