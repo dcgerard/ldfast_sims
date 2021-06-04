@@ -4,6 +4,7 @@
 
 library(tidyverse)
 library(ggthemes)
+library(latex2exp)
 
 maf <- read_csv(file = "./output/maf/maf_ldfits.csv")
 
@@ -24,8 +25,7 @@ maf %>%
   geom_boxplot() +
   theme_bw() +
   theme(strip.background = element_rect(fill = "white")) +
-  scale_color_colorblind()
-
+  scale_color_colorblind() -> temp
 
 size_seq <- unique(maf$size)
 oaf_seq <- unique(maf$oaf)
@@ -55,7 +55,8 @@ for (i in seq_along(size_seq)) {
       scale_color_colorblind() +
       scale_y_log10() +
       xlab("Sample Size") +
-      ylab("Mean Squared Error") ->
+      ylab("Mean Squared Error") +
+      ggtitle(TeX(paste0("Depth = ", size_c, ", $(p_A, p_B)$ = (0.99,", oaf_c, ")"))) ->
       pl
     ggsave(filename = paste0("./output/maf/maf_plots/maf_size",
                              size_c,

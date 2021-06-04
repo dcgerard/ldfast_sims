@@ -56,6 +56,14 @@ mafufit = ./output/maf/ufit/maf_ufit_ploidy2_nind100.RDS \
           ./output/maf/ufit/maf_ufit_ploidy6_nind1000.RDS \
           ./output/maf/ufit/maf_ufit_ploidy8_nind1000.RDS
 
+# MSE plots for MAF simulations
+mafplots = ./output/maf/maf_plots/maf_size10_oaf50.pdf \
+           ./output/maf/maf_plots/maf_size10_oaf90.pdf \
+           ./output/maf/maf_plots/maf_size10_oaf99.pdf \
+           ./output/maf/maf_plots/maf_size100_oaf50.pdf \
+           ./output/maf/maf_plots/maf_size100_oaf90.pdf \
+           ./output/maf/maf_plots/maf_size100_oaf99.pdf
+
 # Run simulations
 .PHONY : all
 all : sims uit maf prior
@@ -132,7 +140,7 @@ uit : ./output/uit/figs/rr_hist.pdf \
 # Deeper exploration of small minor allele frequency
 
 .PHONY : maf
-maf : ./output/maf/maf_ldfits.csv
+maf : $(mafplots)
 
 ./output/maf/maf_reads.RData : ./code/maf_data.R
 	mkdir -p ./output/maf
@@ -148,6 +156,11 @@ $(mafufit) : ./code/maf_updog.R ./output/maf/maf_reads.RData
 	mkdir -p ./output/maf
 	mkdir -p ./output/rout
 	$(rexec) '--args nc=$(nc)' $< ./output/rout/$(basename $(notdir $<)).Rout
+
+$(mafplots) : ./code/maf_plot.R ./output/maf/maf_ldfits.csv
+	mkdir -p ./output/maf
+	mkdir -p ./output/rout
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
 
 # Briefly look at exploration of prior
 

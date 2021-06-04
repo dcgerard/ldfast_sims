@@ -56,7 +56,7 @@ the results from @gerard2021fast.
     make sims
     ```
     
-- To run just the simulations evaluating rare variants and effects of shrinkage, run
+- To run just the simulations evaluating rare variants, run
 
     ```{bash, eval = FALSE}
     make maf
