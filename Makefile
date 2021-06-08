@@ -79,8 +79,13 @@ $(simplots) : ./code/sims_plot.R ./output/sims/simout.csv
 	mkdir -p ./output/rout
 	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
 
+./output/rr_se.pdf : ./code/sims_rrvar.R ./output/sims/simout.csv ./output/maf/maf_ldfits.csv 
+	mkdir -p ./output/sims
+	mkdir -p ./output/rout
+	$(rexec) $< ./output/rout/$(basename $(notdir $<)).Rout
+
 .PHONY : sims
-sims : $(simplots)
+sims : $(simplots) ./output/rr_se.pdf
 
 # Real data analysis using data from Uitdewilligen et. al. (2013)
 

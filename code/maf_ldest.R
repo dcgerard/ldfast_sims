@@ -35,16 +35,18 @@ for (i in seq_along(flist)) {
 
   inddf <- cbind(seq(1, nrow(mout$snpdf), by = 2), seq(2, nrow(mout$snpdf), by = 2))
   npairs <- nrow(inddf)
-  dprime_df <- data.frame(ploidy = ploidy,
-                          nind = nind,
-                          mom_dprime = rep(NA_real_, npairs),
-                          mom_rr_a     = NA_real_,
-                          mom_rr_b     = NA_real_,
+  dprime_df <- data.frame(ploidy        = ploidy,
+                          nind          = nind,
+                          mom_dprime    = rep(NA_real_, npairs),
+                          mom_rr_a      = NA_real_,
+                          mom_rr_b      = NA_real_,
+                          rr_se_a       = NA_real_,
+                          rr_se_b       = NA_real_,
                           shrink_dprime = NA_real_,
-                          shrink_rr_a = NA_real_,
-                          shrink_rr_b = NA_real_,
-                          mle_dprime = NA_real_,
-                          naive_dprime = NA_real_)
+                          shrink_rr_a   = NA_real_,
+                          shrink_rr_b   = NA_real_,
+                          mle_dprime    = NA_real_,
+                          naive_dprime  = NA_real_)
 
   dprime_df <- cbind(paramdf, dprime_df)
 
@@ -70,6 +72,8 @@ for (i in seq_along(flist)) {
   dprime_df$shrink_dprime <- shrink_out$ldmat[inddf]
   dprime_df$shrink_rr_a <- shrink_out$rr[seq(1, length(shrink_out$rr), by = 2)]
   dprime_df$shrink_rr_b <- shrink_out$rr[seq(2, length(shrink_out$rr), by = 2)]
+  dprime_df$rr_se_a <- shrink_out$rr_se[seq(1, length(shrink_out$rr), by = 2)]
+  dprime_df$rr_se_b <- shrink_out$rr_se[seq(2, length(shrink_out$rr), by = 2)]
 
   ## MLE
   gl <- format_multidog(x = mout, varname = paste0("logL_", 0:ploidy))

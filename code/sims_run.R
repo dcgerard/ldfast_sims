@@ -124,7 +124,11 @@ paramdf %>%
          mle_z_se          = NA_real_,
          mle_r_est         = NA_real_,
          mle_r_se          = NA_real_,
-         mle_time          = NA_real_) ->
+         mle_time          = NA_real_,
+         rratio_a          = NA_real_,
+         rratio_b          = NA_real_,
+         rratio_a_se       = NA_real_,
+         rratio_b_se       = NA_real_) ->
   paramdf
 
 ## shuffle order to equalize computation time across nodes
@@ -264,6 +268,15 @@ simdf <- foreach::foreach(i = seq_len(nrow(paramdf)),
                                             thresh = FALSE)
                               paramdf$fast_Dprime_est[[i]]  <- ldf$ldmat[[1, 2]]
                               paramdf$fast_Dprime_se[[i]] <- ldf$semat[[1, 2]]
+
+                              ldf_temp <- ldfast(gp = gp, type = "r2",
+                                                 shrinkrr = TRUE,
+                                                 se = TRUE,
+                                                 thresh = FALSE)
+                              paramdf$rratio_a[[i]] <- ldf_temp$rr_raw[[1]]
+                              paramdf$rratio_a_se[[i]] <- ldf_temp$rr_se[[1]]
+                              paramdf$rratio_b[[i]] <- ldf_temp$rr_raw[[2]]
+                              paramdf$rratio_b_se[[i]] <- ldf_temp$rr_se[[2]]
                             }, error = function(e) NULL)
 
                             tryCatch({
